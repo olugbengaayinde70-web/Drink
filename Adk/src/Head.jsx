@@ -14,9 +14,9 @@ function Head() {
   return (
     <header className='h-auto md:h-[80px] w-full flex items-center justify-between px-4 md:px-8 py-4 md:py-0 shadow-lg sticky top-0 z-50' style={{backgroundColor: '#FFF9F2'}}>
         {/* Logo Section */}
-        <div className='h-[70px] flex items-center gap-3 md:gap-4 flex-shrink-0 group cursor-pointer'>
-            <div className='h-[60px] w-[60px] rounded-full flex items-center justify-center font-bold text-2xl shadow-md group-hover:shadow-lg group-hover:scale-110 transition-all duration-300 group-hover:-rotate-12' style={{background: 'linear-gradient(135deg, #F59E0B, #D91E18)'}}>
-              🍹
+        <div className='h-[70px] flex items-center gap-3 md:gap-4 flex-shrink-0 group cursor-pointer top'>
+            <div className='h-[58px] w-[58px] flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:-rotate-12'>
+              <img src="/Adklogo.png" alt="ADK Trading logo" className='w-full h-full object-contain' />
             </div>
             <div className='flex flex-col justify-center'>
                 <h1 className='font-extrabold text-xl md:text-2xl transition-colors duration-300 group-hover:scale-105' style={{color: '#D91E18'}}>ADK Trading</h1>

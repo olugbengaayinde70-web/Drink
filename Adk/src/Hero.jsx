@@ -124,7 +124,7 @@ function Hero() {
           <div
             className={`relative h-96 md:h-screen md:min-h-screen md:-my-12 md:-mr-8 transition-all duration-1000 delay-400 ${
               isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-            }`}
+            } ddd`}
           >
             {/* Background Container */}
             <div className='absolute inset-0 rounded-3xl' style={{background: 'linear-gradient(135deg, rgba(217, 30, 24, 0.05), rgba(245, 158, 11, 0.03), rgba(132, 204, 22, 0.05))'}}></div>

@@ -3,155 +3,206 @@ import Gallery from './Gallery'
 
 function Body() {
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [cartCount, setCartCount] = useState(0)
+  const [cartItems, setCartItems] = useState([])
   const [hoveredId, setHoveredId] = useState(null)
   const [showCheckout, setShowCheckout] = useState(false)
   const [badgeFilter, setBadgeFilter] = useState(null)
 
+  const formatNaira = (value) =>
+    new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+      maximumFractionDigits: 0
+    }).format(value)
+
   const drinks = [
     {
       id: 1,
-      name: 'Classic Lemonade',
+      name: 'Fanta',
       image: '/fanta.jpeg',
-      category: 'refreshing',
+      category: 'soft-drinks',
       emoji: '🍋',
-      description: 'Fresh squeezed lemon juice with sugar and ice',
-      price: 3.99,
+      description: 'Fanta is a refreshing, fruity, and fizzy drink bursting with vibrant flavor.',
+      price: 4500,
       rating: 4.8,
       badge: 'bestseller',
       reviews: 128
     },
     {
       id: 2,
-      name: 'Tropical Mango',
+      name: 'American Cola',
       image: '/am%20cola.jpeg',
-      category: 'tropical',
+      category: 'soft-drinks',
       emoji: '🥭',
-      description: 'Sweet mango puree blended with coconut cream',
-      price: 5.49,
+      description: 'American Cola is a refreshing, bold, and fizzy cola with a classic taste.',
+      price: 4000,
       rating: 4.9,
       badge: 'popular',
       reviews: 156
     },
     {
       id: 3,
-      name: 'Berry Blast',
+      name: 'Fearless Energy',
       image: '/fearless.jpeg',
-      category: 'fruity',
-      emoji: '🍓',
-      description: 'Mixed berries smoothie with yogurt',
-      price: 5.99,
+      category: 'energy',
+      emoji: '⚡',
+      description: 'Fearless Energy Drink is a fast-boosting drink made to keep you active and alert.',
+      price: 4500,
       rating: 4.7,
       badge: 'healthy',
       reviews: 92
     },
     {
       id: 4,
-      name: 'Iced Coffee',
+      name: 'Pepsi',
       image: '/pepsi.jpeg',
-      category: 'coffee',
-      emoji: '☕',
-      description: 'Cold brew espresso with creamy milk',
-      price: 4.49,
+      category: 'soft-drinks',
+      emoji: '🧃',
+      description: 'Pepsi is a refreshing, crisp cola with a bold and delicious taste.',
+      price: 4300,
       rating: 4.6,
       badge: null,
       reviews: 87
     },
     {
       id: 5,
-      name: 'Watermelon Cooler',
+      name: 'Rc',
       image: '/rc.jpeg',
-      category: 'refreshing',
+      category: 'soft-drinks',
       emoji: '🍉',
-      description: 'Refreshing watermelon juice with mint',
-      price: 4.99,
+      description: 'Rc is a refreshing, fruity, and fizzy drink bursting with vibrant flavor.',
+      price: 2400,
       rating: 4.8,
       badge: 'summer',
       reviews: 143
     },
     {
       id: 6,
-      name: 'Strawberry Milkshake',
-      image: new URL('./assets/drink-6.svg', import.meta.url).href,
-      category: 'milkshake',
+      name: 'Fanta (Bottled)',
+      image: '/Fanta.jfif',
+      category: 'soft-drinks',
       emoji: '🍓',
-      description: 'Creamy strawberry ice cream shake',
-      price: 5.99,
+      description: 'Bottle Fanta is a refreshing, fruity soda with a bold and bubbly taste.',
+      price: 7000,
       rating: 4.9,
       badge: 'popular',
       reviews: 201
     },
     {
       id: 7,
-      name: 'Pineapple Paradise',
-      image: new URL('./assets/drink-7.svg', import.meta.url).href,
-      category: 'tropical',
-      emoji: '🍍',
-      description: 'Tropical pineapple blend with rum (virgin option)',
-      price: 6.49,
+      name: 'Chikki Chikki Noodles',
+      image: '/chicki.jfif',
+      category: 'food',
+      emoji: '🍜',
+      description: 'Quick, tasty noodles with a savory flavor that is perfect for a fast meal.',
+      price: 11000,
       rating: 4.8,
       badge: 'premium',
       reviews: 112
     },
     {
       id: 8,
-      name: 'Chocolate Dream',
-      image: new URL('./assets/drink-8.svg', import.meta.url).href,
-      category: 'milkshake',
-      emoji: '🍫',
-      description: 'Rich dark chocolate with whipped cream',
-      price: 5.49,
+      name: 'Smoov Chapman',
+      image: '/Smoov.jfif',
+      category: 'soft-drinks',
+      emoji: '🍊',
+      description: 'Smoov Chapman is a fruity and refreshing drink with a sweet, vibrant taste.',
+      price: 2400,
       rating: 4.7,
       badge: null,
       reviews: 178
     },
     {
       id: 9,
-      name: 'Green Tea Zen',
-      image: new URL('./assets/drink-9.svg', import.meta.url).href,
-      category: 'tea',
-      emoji: '🍵',
-      description: 'Organic green tea with lemon and honey',
-      price: 4.99,
+      name: 'Mr V Table Water',
+      image: '/mrv.jpg',
+      category: 'water',
+      emoji: '💧',
+      description: 'Mr V Water is clean, refreshing bottled water for everyday hydration.',
+      price: 1800,
       rating: 4.6,
       badge: 'healthy',
       reviews: 64
     },
     {
       id: 10,
-      name: 'Passion Fruit Punch',
-      image: new URL('./assets/drink-10.svg', import.meta.url).href,
-      category: 'tropical',
-      emoji: '🍷',
-      description: 'Exotic passion fruit with ginger kick',
-      price: 5.99,
+      name: 'Hollandia Yogurt',
+      image: '/Yogurt.jpg',
+      category: 'water',
+      emoji: '🥛',
+      description: 'Hollandia Yoghurt is a smooth, creamy, and refreshing dairy drink.',
+      price: 11000,
       rating: 4.9,
       badge: 'popular',
       reviews: 189
     },
     {
       id: 11,
-      name: 'Vanilla Frosted',
-      image: new URL('./assets/drink-11.svg', import.meta.url).href,
-      category: 'milkshake',
-      emoji: '🥛',
-      description: 'Classic vanilla ice cream milkshake',
-      price: 4.99,
+      name: 'Malta Guinness',
+      image: '/guiness.jpg',
+      category: 'soft-drinks',
+      emoji: '🍺',
+      description: 'Malta Guinness is a rich, sweet, and satisfying energy drink with a smooth finish.',
+      price: 15000,
       rating: 4.5,
       badge: null,
       reviews: 76
     },
     {
       id: 12,
-      name: 'Citrus Sunrise',
-      image: new URL('./assets/drink-12.svg', import.meta.url).href,
-      category: 'refreshing',
-      emoji: '🍊',
-      description: 'Fresh orange, tangerine and carrot blend',
-      price: 4.99,
+      name: 'Indomie Table',
+      image: '/indomie-table.jpg',
+      category: 'food',
+      emoji: '🍲',
+      description: 'Indomie Table is a tasty and convenient noodle meal for a quick, satisfying serving.',
+      price: 15000,
       rating: 4.8,
       badge: 'bestseller',
       reviews: 134
+    },
+    {
+      id: 13,
+      name: 'Groundnut Oil',
+      image: '/ORORO.jpg',
+      category: 'cooking',
+      emoji: '🥥',
+      description: 'Groundnut Oil is a versatile cooking oil for frying, seasoning, and everyday meals.',
+      rating: 4.4,
+      badge: 'Food',
+      reviews: 100
+    },
+    {
+      id: 14,
+      name: 'Rice',
+      image: '/Bagofrice.jpg',
+      category: 'cooking',
+      emoji: '🍚',
+      description: 'Rice is a staple food for hearty meals, soups, and family-sized dishes.',
+      rating: 4.9,
+      badge: 'Food',
+      reviews: 174
+    },
+    {
+      id: 15,
+      name: 'Red Oil',
+      image: '/Palmoil.jpg',
+      category: 'cooking',
+      emoji: '🫒',
+      description: 'Red Oil adds rich flavor and is ideal for traditional meals and cooking staples.',
+      rating: 4.7,
+      badge: 'Food',
+      reviews: 134
+    },
+    {
+      id: 16,
+      name: 'Frozen Foods',
+      image: '/Frozen.jpg',
+      category: 'food',
+      emoji: '🧊',
+      description: 'Frozen Foods are a convenient, tasty option for quick meals and family snacks.',
+      rating: 4.1,
+      badge: 'Food',
+      reviews: 191
     }
   ]
 
@@ -167,21 +218,34 @@ function Body() {
   }
 
   const categories = [
-    { id: 'all', label: 'All Drinks' },
-    { id: 'refreshing', label: 'Refreshing' },
-    { id: 'tropical', label: 'Tropical' },
-    { id: 'fruity', label: 'Fruity' },
-    { id: 'milkshake', label: 'Milkshakes' },
-    { id: 'coffee', label: 'Coffee' },
-    { id: 'tea', label: 'Tea' }
+    { id: 'all', label: 'All Items' },
+    { id: 'soft-drinks', label: 'Soft Drinks' },
+    { id: 'energy', label: 'Energy Drinks' },
+    { id: 'water', label: 'Water & Dairy' },
+    { id: 'food', label: 'Meals & Snacks' },
+    { id: 'cooking', label: 'Cooking Essentials' }
   ]
+
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
+  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
+  const deliveryFee = cartItems.length > 0 ? (cartTotal >= 25000 ? 0 : 1500) : 0
+  const orderTotal = cartTotal + deliveryFee
 
   const filteredDrinks = drinks
     .filter(d => (selectedCategory === 'all' ? true : d.category === selectedCategory))
     .filter(d => (badgeFilter ? d.badge === badgeFilter : true))
 
   const handleAddToCart = (drink) => {
-    setCartCount(cartCount + 1)
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.id === drink.id)
+      if (existingItem) {
+        return prev.map(item =>
+          item.id === drink.id ? { ...item, quantity: item.quantity + 1 } : item
+        )
+      }
+      return [...prev, { ...drink, quantity: 1 }]
+    })
+    setShowCheckout(true)
   }
 
   useEffect(() => {
@@ -327,7 +391,7 @@ function Body() {
                       <div>
                         <p className='text-xs mb-1' style={{color: '#625A54'}}>Price</p>
                         <p className='text-3xl md:text-4xl font-black text-transparent bg-clip-text' style={{backgroundImage: 'linear-gradient(to right, #D91E18, #F59E0B)'}}>
-                          ${drink.price.toFixed(2)}
+                          {formatNaira(drink.price)}
                         </p>
                       </div>
                       <button 
@@ -359,7 +423,7 @@ function Body() {
         </div>
 
         {/* Gallery Showcase */}
-        <Gallery items={drinks.slice(0, 6)} />
+        <Gallery items={drinks} />
 
         {/* Bottom CTA Section */}
         <div className='text-center mt-20 pt-12 transition-colors duration-300' style={{borderColor: '#D91E18', borderTopWidth: '2px'}}>
@@ -377,12 +441,57 @@ function Body() {
         {/* Checkout Modal */}
         {showCheckout && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/50">
-            <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl">
-              <h3 className="text-xl font-bold mb-4" style={{color: '#3A2118'}}>Your Cart</h3>
-              <p className="text-sm mb-4" style={{color: '#625A54'}}>Items in cart: {cartCount}</p>
-              <div className="flex justify-end gap-3">
-                <button onClick={() => setShowCheckout(false)} className="px-4 py-2 bg-gray-100 rounded">Close</button>
-                <button onClick={() => { setShowCheckout(false); alert('Checkout is a demo — implement payment flow.'); }} className="px-4 py-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-amber-900 font-bold rounded">Proceed</button>
+            <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold" style={{color: '#3A2118'}}>Your Order</h3>
+                <button onClick={() => setShowCheckout(false)} className="px-3 py-1.5 bg-gray-100 rounded-full text-sm">Close</button>
+              </div>
+
+              <div className="space-y-4 mb-5">
+                {cartItems.length === 0 ? (
+                  <p className="text-sm" style={{color: '#625A54'}}>Your cart is empty. Add a few items to place an order.</p>
+                ) : (
+                  cartItems.map(item => (
+                    <div key={item.id} className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 p-3">
+                      <div className="flex items-center gap-3">
+                        <img src={item.image} alt={item.name} className="w-14 h-14 rounded-lg object-cover" />
+                        <div>
+                          <p className="font-bold text-sm" style={{color: '#3A2118'}}>{item.name}</p>
+                          <p className="text-xs" style={{color: '#625A54'}}>{item.quantity} item{item.quantity > 1 ? 's' : ''}</p>
+                        </div>
+                      </div>
+                      <p className="font-bold" style={{color: '#3A2118'}}>{formatNaira(item.price * item.quantity)}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="rounded-2xl p-4" style={{backgroundColor: '#FFF8F3'}}>
+                <div className="flex justify-between text-sm mb-2" style={{color: '#625A54'}}>
+                  <span>Subtotal</span>
+                  <span>{formatNaira(cartTotal)}</span>
+                </div>
+                <div className="flex justify-between text-sm mb-2" style={{color: '#625A54'}}>
+                  <span>Delivery</span>
+                  <span>{deliveryFee === 0 ? 'Free' : formatNaira(deliveryFee)}</span>
+                </div>
+                <div className="flex justify-between text-lg font-black pt-2 border-t border-red-100" style={{color: '#3A2118'}}>
+                  <span>Total</span>
+                  <span>{formatNaira(orderTotal)}</span>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-5">
+                <button onClick={() => setShowCheckout(false)} className="px-4 py-2 bg-gray-100 rounded-lg">Continue Shopping</button>
+                <a
+                  href={cartItems.length > 0 ? `https://wa.me/2348032821294?text=${encodeURIComponent(`Hello Adk Trading Store, I would like to place this order:\n${cartItems.map(item => `- ${item.name} x${item.quantity} = ${formatNaira(item.price * item.quantity)}`).join('\n')}\n\nSubtotal: ${formatNaira(cartTotal)}\nDelivery: ${deliveryFee === 0 ? 'Free' : formatNaira(deliveryFee)}\nTotal: ${formatNaira(orderTotal)}`)}` : 'https://wa.me/2348032821294'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg text-white font-bold"
+                  style={{background: 'linear-gradient(to right, #D91E18, #F04438)'}}
+                >
+                  Place Order
+                </a>
               </div>
             </div>
           </div>
